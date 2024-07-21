@@ -63,7 +63,9 @@ func (o *jsFetch) Fetch(ctx context.Context, job scrapemate.IJob) scrapemate.Res
 		}
 	}
 
-	defer o.PutBrowser(ctx, browser)
+	// defer o.PutBrowser(ctx, browser)
+	defer browser.Close()
+	defer browser.pw.Stop()
 
 	if job.GetTimeout() > 0 {
 		var cancel context.CancelFunc
