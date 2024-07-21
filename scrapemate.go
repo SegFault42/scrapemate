@@ -265,7 +265,6 @@ func (s *ScrapeMate) Start() error {
 					"lastActivityAt", lastActivityAt,
 					"speed", fmt.Sprintf("%.2f jobs/min", perMinute),
 				)
-				return
 
 				if s.exitOnInactivity && time.Now().UTC().Sub(lastActivityAt) > s.exitOnInactivityDuration {
 					err := fmt.Errorf("%w: %s", ErrInactivityTimeout, lastActivityAt.Format(time.RFC3339))
