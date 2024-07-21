@@ -46,9 +46,11 @@ func (o *jsFetch) PutBrowser(ctx context.Context, b *browser) {
 	select {
 	case <-ctx.Done():
 		b.Close()
+		b.pw.Stop()
 	case o.pool <- b:
 	default:
 		b.Close()
+		b.pw.Stop()
 	}
 }
 
@@ -62,8 +64,6 @@ func (o *jsFetch) Fetch(ctx context.Context, job scrapemate.IJob) scrapemate.Res
 	}
 
 	defer o.PutBrowser(ctx, browser)
-	defer browser.Close()
-	defer browser.pw.Stop()
 
 	if job.GetTimeout() > 0 {
 		var cancel context.CancelFunc
